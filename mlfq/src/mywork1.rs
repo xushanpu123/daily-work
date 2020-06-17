@@ -61,7 +61,7 @@ if options.quantumList!=''
    let mut qc = numQueues - 1;
    let mut i = 0;
    while i<numQueues{
-       quantum[qc] = String::from(quantumLengths[i]).parse::<i32>().unwrap();
+       quantum.get_mut(&qc).unwrap() = String::from(quantumLengths[i]).parse::<i32>().unwrap();
        i+=1;
        qc-=1;
    }
@@ -71,7 +71,7 @@ else
     let mut i = 0;
     while i<numQueues
     {
-        quantum[i] = options.quantum;
+        quantum.get_mut(&i).unwrap() = options.quantum;
         i+=1;
     }
 }
@@ -87,7 +87,7 @@ if options.allotmentList!=''
    let mut qc = numQueues - 1;
    let mut i = 0;
    while i<numQueues{
-       allotment[qc] = String::from(allotmentLengths[i]).parse::<i32>().unwrap();
+       allotment.get_mut(&qc).unwrap() = String::from(allotmentLengths[i]).parse::<i32>().unwrap();
        i+=1;
        qc-=1;
    }
@@ -97,7 +97,7 @@ else
     let mut i = 0;
     while i<numQueues
     {
-        allotment[i] = options.allotment;
+        allotment.get_mut(&i).unwrap() = options.allotment;
         i+=1;
     }
 }
@@ -112,11 +112,11 @@ for j in allJobs.iter(){
     let mut jobInfo:Vec<&str> = j.split(',').collect();
     if jobInfo.len()!=3
     {
-        println!('Badly formatted job string. Should be x1,y1,z1:x2,y2,z2:...');
+        println!('Badly formatted job string. Should be x1,y1,z1:x2,y2,z2:...')
 
-        println!('where x is the startTime, y is the runTime, and z is the I/O frequency.');
+        ​      println!('where x is the startTime, y is the runTime, and z is the I/O frequency.')
         
-        exit(1);
+        ​      exit(1)
     }
     asserteq!(jobInfo.len(),3);
     let startTime = String::from(jobInfo[0]).parse::<i32>().unwrap();
@@ -194,7 +194,7 @@ while finishJobs<totalJobs{
     if currTime%options.boost==0{
         println!("[time {:?}]BOOST (every {:?})",currTime,options.boost);
         for q in 0..numQueues-2{
-            for j in queue[q].iter(){
+            for j in queue.get_mut(&q).unwrap().iter(){
                 if job[j].doingIO==false
                    {
                       queue.get_mut(&hiQueue).unwrap().push(&j); 
